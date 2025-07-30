@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ADARSH – Portfolio</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      overflow-x: hidden;
+      background-color: #000;
+      color: white;
+    }
+
+    .container-flex {
+      display: flex;
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    .left-panel {
+      flex: 1;
+      background: linear-gradient(135deg, #3f0071, #000);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 30px;
+      font-size: 1.75rem;
+      font-weight: 600;
+      min-height: 100vh;
+    }
+
+    #scriptDisplay {
+      min-height: 120px;
+      font-size: 1.75rem;
+      line-height: 2.2rem;
+      white-space: pre-wrap;
+      text-align: center;
+      margin-bottom: 30px;
+      min-width: 280px;
+    }
+
+    .right-panel {
+      flex: 1;
+      background-color: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+
+    .profile-image {
+      width: 250px;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+
+    .image-wrapper {
+      padding: 12px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #8e24aa, #311b92);
+      box-shadow: 0 0 30px rgba(179, 157, 219, 0.6);
+      display: inline-block;
+    }
+
+    .image-wrapper .profile-image {
+      border: 3px solid #fff;
+      border-radius: 12px;
+    }
+
+    .buttons-container {
+      margin-top: 30px;
+      display: flex;
+      gap: 20px;
+    }
+
+    .btn-animated {
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 10px 20px;
+      border-radius: 30px;
+      border: 2px solid white;
+      color: white;
+      background: transparent;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-animated:hover {
+      background-color: white;
+      color: #3f0071;
+      text-decoration: none;
+    }
+
+    .btn-animated svg {
+      fill: currentColor;
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Projects & Experience Section */
+    .projects-experience-section {
+      background: #111;
+      color: white;
+      padding: 50px 20px;
+    }
+
+    .section-title {
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 40px;
+      text-align: center;
+      color: #d1c4e9;
+    }
+
+    .card-custom {
+      background: #222;
+      border: none;
+      border-radius: 12px;
+      color: white;
+      box-shadow: 0 0 15px rgba(63, 0, 113, 0.7);
+      transition: transform 0.3s ease;
+    }
+
+    .card-custom:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 0 25px rgba(63, 0, 113, 1);
+    }
+
+    .card-custom .card-body {
+      padding: 20px;
+    }
+
+    .subsection {
+      margin-bottom: 50px;
+    }
+
+    ul.education-list {
+      list-style-type: disc;
+      padding-left: 20px;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .project-card {
+      background: #222;
+      border-radius: 12px;
+      padding: 15px;
+      transition: transform 0.3s ease;
+      overflow: hidden;
+      min-height: 250px;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px rgba(179, 157, 219, 0.4);
+    }
+
+    .project-card:hover .content-blur {
+      filter: blur(2px);
+      opacity: 0.4;
+      transition: all 0.3s ease;
+    }
+
+    .tool-progress-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.07);
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .project-card:hover .tool-progress-bar {
+      display: flex;
+    }
+
+    .tool-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #ccc;
+    }
+
+    .progress {
+      height: 8px;
+      background: #444;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 8px;
+      font-size: 0.7rem;
+      text-align: right;
+      padding-right: 4px;
+      color: #fff;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container-flex">
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
+      <div id="scriptDisplay" class="text-center">
+        <div id="introLine" class="animate__animated" style="font-size: 2.2rem; font-weight: bold;">
+          <span style="display: inline-block;">👋 Hi, I'm <span style="color:#b39ddb">ADARSH</span></span>
+        </div>
+        <div id="roleLine" class="animate__animated mt-3" style="font-size: 1.5rem;"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+      <div class="image-wrapper animate__animated animate__zoomIn">
+        <img src="/Users/arh/Downloads/IMG_2917.jpg" alt="Profile Photo" class="profile-image" />
+      </div>
+      <div class="buttons-container animate__animated animate__fadeInUp animate__delay-2s">
+        <a href="https://github.com/ArhScripts" target="_blank" class="btn-animated" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.37 0 0 5.373 0 12c0 5.303 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.085 1.84 1.236 1.84 1.236 1.07 1.834 2.807 1.304 3.492.997.108-.776.418-1.305.76-1.605-2.665-.304-5.466-1.335-5.466-5.93 0-1.31.47-2.38 1.235-3.22-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.3 1.23a11.52 11.52 0 013.003-.404c1.02.005 2.045.137 3.003.404 2.29-1.552 3.296-1.23 3.296-1.23.653 1.653.243 2.873.12 3.176.77.84 1.23 1.91 1.23 3.22 0 4.61-2.807 5.624-5.48 5.92.43.37.823 1.102.823 2.222 0 1.606-.015 2.896-.015 3.286 0 .32.216.694.825.576C20.565 21.796 24 17.3 24 12c0-6.627-5.373-12-12-12z"></path></svg>
+          GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/adarsh-ps-/" target="_blank" class="btn-animated" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.11 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4v14h-4V8zm7.5 0h3.8v2h.05c.53-1 1.82-2 3.75-2 4 0 4.75 2.6 4.75 5.97V22h-4v-7.2c0-1.7-.03-3.9-2.4-3.9-2.4 0-2.77 1.9-2.77 3.77V22h-4V8z"></path></svg>
+          LinkedIn
+        </a>
+        <a href="#projectsExperience" class="btn-animated" aria-label="Projects">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zm0-8h14V7H7v2z"></path></svg>
+          Projects
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Projects & Experience Section -->
+  <section id="projectsExperience" class="projects-experience-section container-fluid">
+    <h2 class="section-title animate__animated animate__fadeInDown">Projects &amp; Experience</h2>
+    <div class="container">
+      <!-- Projects Section -->
+      <div class="row subsection animate__animated animate__fadeInUp">
+        <div class="col-12 mb-4">
+          <h3 class="mb-3">Academic Projects</h3>
+        </div>
+        <div class="row g-4">
+          <!-- Project 1 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="card card-custom project-card h-100 position-relative">
+              <div class="card-body content-blur">
+                <h5 class="card-title">Semi-Automated Wood Cutting System</h5>
+                <p class="card-text small">
+                  Dual-mode PLC-based sawmill system using Siemens LOGO! for sensor-driven or timed conveyor and cutting motor control. Emergency stop and mode selection included.
+                </p>
+                <p class="small"><strong>Tools:</strong> LOGO! PLC, Ladder Logic, Proximity Sensor, Motors</p>
+              </div>
+              <div class="tool-progress-bar tool-popup">
+                <div class="tool-label">PLC Programming</div>
+                <div class="progress"><div class="progress-bar bg-info" style="width: 80%;">80%</div></div>
+                <div class="tool-label">Sensor Integration</div>
+                <div class="progress"><div class="progress-bar bg-warning" style="width: 60%;">60%</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 2 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="card card-custom project-card h-100 position-relative">
+              <div class="card-body content-blur">
+                <h5 class="card-title">Automatic Water Filling System</h5>
+                <p class="card-text small">
+                  PLC-controlled water tank refilling using float switches and solenoid valves. Overflow and dry-run prevention via reliable logic simulation.
+                </p>
+                <p class="small"><strong>Tools:</strong> LOGO! PLC, Float Switch, Solenoid Valve, Ladder Logic</p>
+              </div>
+              <div class="tool-progress-bar tool-popup">
+                <div class="tool-label">PLC Control Logic</div>
+                <div class="progress"><div class="progress-bar bg-info" style="width: 75%;">75%</div></div>
+                <div class="tool-label">HMI Simulation</div>
+                <div class="progress"><div class="progress-bar bg-success" style="width: 65%;">65%</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 3 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="card card-custom project-card h-100 position-relative">
+              <div class="card-body content-blur">
+                <h5 class="card-title">HarmonySense – Emotion-Based Smart Control</h5>
+                <p class="card-text small">
+                  Raspberry Pi-based CNN emotion detection system with Alexa integration for mood-based music and lighting. Built with OpenCV, TTS, and Node.js.
+                </p>
+                <p class="small"><strong>Tools:</strong> TensorFlow, OpenCV, Alexa SDK, Node.js, PiCam, TTS</p>
+              </div>
+              <div class="tool-progress-bar tool-popup">
+                <div class="tool-label">Python & ML</div>
+                <div class="progress"><div class="progress-bar bg-warning" style="width: 70%;">70%</div></div>
+                <div class="tool-label">System Integration</div>
+                <div class="progress"><div class="progress-bar bg-primary" style="width: 80%;">80%</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 4 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="card card-custom project-card h-100 position-relative">
+              <div class="card-body content-blur">
+                <h5 class="card-title">Urban Bloom Pod – IoT Indoor Farming</h5>
+                <p class="card-text small">
+                  Sealed indoor farming pod with auto irrigation, grow light, and real-time cloud dashboard using Arduino and Raspberry Pi.
+                </p>
+                <p class="small"><strong>Tools:</strong> Arduino, Raspberry Pi, DHT11, Blynk, Node.js</p>
+              </div>
+              <div class="tool-progress-bar tool-popup">
+                <div class="tool-label">IoT Integration</div>
+                <div class="progress"><div class="progress-bar bg-success" style="width: 85%;">85%</div></div>
+                <div class="tool-label">Sensor Control</div>
+                <div class="progress"><div class="progress-bar bg-info" style="width: 75%;">75%</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 5 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="card card-custom project-card h-100 position-relative">
+              <div class="card-body content-blur">
+                <h5 class="card-title">LPG Gas Leak Detection & Auto Valve</h5>
+                <p class="card-text small">
+                  Arduino-based safety system to auto-close valve, alert via buzzer and SMS when leak is detected using MQ-6 sensor and SIM800L.
+                </p>
+                <p class="small"><strong>Tools:</strong> Arduino, MQ-6, Servo, LCD, GSM Module</p>
+              </div>
+              <div class="tool-progress-bar tool-popup">
+                <div class="tool-label">Embedded Logic</div>
+                <div class="progress"><div class="progress-bar bg-warning" style="width: 70%;">70%</div></div>
+                <div class="tool-label">Alert System</div>
+                <div class="progress"><div class="progress-bar bg-primary" style="width: 65%;">65%</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Project 6 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="card card-custom project-card h-100 position-relative">
+              <div class="card-body content-blur">
+                <h5 class="card-title">PPC Functional Blocks – Internship @ Kalki</h5>
+                <p class="card-text small">
+                  Developed and tested reusable logic blocks for power plant controller using CODESYS, achieving &lt;2% error with &lt;35ms latency in RT simulations.
+                </p>
+                <p class="small"><strong>Tools:</strong> CODESYS, RSCAD, RTDS, Modbus, SEL RTAC</p>
+              </div>
+              <div class="tool-progress-bar tool-popup">
+                <div class="tool-label">Function Block Dev</div>
+                <div class="progress"><div class="progress-bar bg-success" style="width: 85%;">85%</div></div>
+                <div class="tool-label">HIL Testing</div>
+                <div class="progress"><div class="progress-bar bg-info" style="width: 75%;">75%</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  <script>
+    // Project card hover effect for blurring and showing tech stack bar (for keyboard accessibility too)
+    document.addEventListener('DOMContentLoaded', function() {
+      const cards = document.querySelectorAll('.project-card');
+      cards.forEach(function(card) {
+        card.addEventListener('mouseenter', function() {
+          card.classList.add('hovered');
+        });
+        card.addEventListener('mouseleave', function() {
+          card.classList.remove('hovered');
+        });
+        // For keyboard accessibility: add focus/blur events
+        card.addEventListener('focusin', function() {
+          card.classList.add('hovered');
+        });
+        card.addEventListener('focusout', function() {
+          card.classList.remove('hovered');
+        });
+      });
+    });
+  </script>
+
+      <!-- Internship Section -->
+      <div class="row subsection animate__animated animate__fadeInUp animate__delay-1s">
+        <div class="col-12 mb-3">
+          <h3>Internship</h3>
+          <div class="card card-custom">
+            <div class="card-body">
+              <h5 class="card-title mb-2">Instrumentation & Automation Intern – Kalki Communication Technologies (SyncElectrix Division)</h5>
+              <p class="card-text mb-1">
+                <strong>Duration:</strong> January 2025 – March 2025<br>
+                <strong>Key Responsibilities:</strong>
+              </p>
+              <ul>
+                <li>Configured and tested industrial sensors (temperature, pressure, and current) for data acquisition in substation environments.</li>
+                <li>Developed and deployed PLC logic for automation of substation operations using IEC 61131-3 programming environments.</li>
+                <li>Configured and validated communication using IEC 61850, Modbus, and DNP3 protocols for substation automation systems.</li>
+                <li>Containerized automation and monitoring applications using Docker and Kubernetes for scalable deployments.</li>
+                <li>Created detailed wiring diagrams, configuration sheets, and functional design specifications for automation projects.</li>
+                <li>Developed real-time dashboards using Grafana to visualize substation parameters and system health metrics.</li>
+                <li>Utilized Visual Studio Code, CODESYS, Docker, Kubernetes, Grafana, SCADA, Fusion 360, and SolidWorks in project workflows.</li>
+              </ul>
+              <p class="mt-3">
+                <strong>Certificate:</strong>
+                <a href="https://drive.google.com/file/d/1MKOM-pj6iq5WoYy32PP5-REqHBthhGNb/view?usp=sharing" target="_blank" class="btn btn-sm btn-outline-light ms-2">View Certificate</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Education Section -->
+      <div class="row subsection animate__animated animate__fadeInUp animate__delay-2s">
+        <div class="col-12">
+          <h3>Education</h3>
+          <div class="card card-custom">
+            <div class="card-body">
+              <ul class="education-list mb-0">
+                <li><strong>Bachelor of Technology (B.Tech) in Electronics and Instrumentation Engineering</strong><br>
+                  Federal Institute of Science And Technology, Angamali (APJ Abdul Kalam Technological University)<br>
+                  CGPA: 8.24/10<br>
+                  Year of Graduation: 2025
+                </li>
+                <li><strong>Higher Secondary Education (Class XII)</strong><br>
+                  Institute of Human Resources Development, Vattamkulam<br>
+                  Percentage: 92.5%<br>
+                  Year of Completion: 2019
+                </li>
+                <li><strong>Secondary School Leaving Certificate (SSLC)</strong><br>
+                  Institute of Human Resources Development, Vattamkulam<br>
+                  Percentage: 87%<br>
+                  Year of Completion: 2017
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Certifications Section -->
+      <div class="row subsection animate__animated animate__fadeInUp animate__delay-3s">
+        <div class="col-12">
+          <h3>Certifications & Online Courses</h3>
+          <div class="card card-custom">
+            <div class="card-body">
+              <p class="mb-3">Courses completed from reputed institutions with excellent performance, focused on advanced concepts in sensors, automation, IoT, robotics, and AI/ML technologies.</p>
+              <ul class="education-list mb-0">
+                <li><strong>Sensors & Actuators</strong> – NPTEL (Elite Score), 2024</li>
+                <li><strong>Internet of Things</strong> – NPTEL (Elite Score), 2023</li>
+                <li><strong>Robotics & IoT</strong> – PACELAB, 2023</li>
+                <li><strong>Data Science, Machine Learning, Deep Learning, and NLP</strong> – Udemy, 2025</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Technical Skills Section -->
+      <div class="row subsection animate__animated animate__fadeInUp animate__delay-4s">
+        <div class="col-12">
+          <h3>Technical Skills</h3>
+          <div class="card card-custom">
+            <div class="card-body">
+              <ul class="education-list mb-0">
+                <li><strong>Technical Skills:</strong> Python, C, SQL, HTML/CSS</li>
+                <li><strong>Microcontrollers:</strong> Arduino, ESP32, Raspberry Pi</li>
+                <li><strong>Frameworks &amp; IDEs:</strong> Visual Studio Code, Arduino IDE, CODESYS</li>
+                <li><strong>DevOps &amp; Containerization:</strong> Docker, Kubernetes</li>
+                <li><strong>Cloud &amp; Databases:</strong> PostgreSQL, Google Colab</li>
+                <li><strong>Simulation &amp; Visualization:</strong> Grafana, Fusion 360, SolidWorks, SCADA</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Volunteering Experience Section -->
+      <div class="row subsection animate__animated animate__fadeInUp animate__delay-5s">
+        <div class="col-12">
+          <h3>Volunteering Experience</h3>
+          <div class="card card-custom">
+            <div class="card-body">
+              <ul class="education-list mb-0">
+  <li><strong>Volunteer, iACT24 (National Technical Event)</strong><br>
+    Played an active role in organizing iACT24, a prestigious national-level technical event, facilitating sessions and coordinating logistics.
+  </li>
+  <li><strong>Student Tutor, Technical Skill Enhancement Program</strong><br>
+    Served as a peer tutor for a structured program aimed at improving technical knowledge in instrumentation and automation among undergraduate students.
+  </li>
+  
+  <li><strong>Event Coordinator, Instrumentation Engineering Association</strong><br>
+    Organized technical symposiums, paper presentations, and hands-on training sessions for peers.
+  </li>
+</ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Co-curricular and Extra-curricular Activities Section -->
+      <div class="row subsection animate__animated animate__fadeInUp animate__delay-6s">
+        <div class="col-12">
+          <h3>Co-curricular and Extra-curricular Activities</h3>
+          <div class="card card-custom">
+            <div class="card-body">
+              <ul class="education-list mb-0">
+                
+                <li><strong>Robotics Competition Finalist</strong> – National Level Robotics Challenge, 2022</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Personal Traits Section -->
+      <div class="row subsection animate__animated animate__fadeInUp animate__delay-7s">
+        <div class="col-12">
+          <h3>Personal Traits</h3>
+          <div class="card card-custom">
+            <div class="card-body">
+              <ul class="education-list mb-0">
+                <li>Quick learner and adaptive to new technologies</li>
+                <li>Strong analytical and problem-solving skills</li>
+                <li>Excellent team player and effective communicator</li>
+                <li>Detail-oriented and committed to quality</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hobbies & Interests Section -->
+      <div class="row subsection animate__animated animate__fadeInUp animate__delay-8s">
+        <div class="col-12">
+          <h3>Hobbies &amp; Interests</h3>
+          <div class="card card-custom">
+            <div class="card-body">
+              <ul class="education-list mb-0">
+                <li>Robotics and embedded systems</li>
+                <li>Traveling and nature photography</li>
+                <li>Chess and strategy games</li>
+                <li>Reading science fiction</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const roles = [
+      "Instrumentation & Control Engineer",
+      "Automation Enthusiast",
+      "IoT & Embedded Systems Developer",
+      "Tech Explorer | MLops | Robotics"
+    ];
+
+    const roleLine = document.getElementById("roleLine");
+    let roleIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function typeRole() {
+      const currentRole = roles[roleIndex];
+      const currentText = currentRole.substring(0, charIndex);
+      roleLine.innerHTML = currentText;
+
+      if (!isDeleting && charIndex < currentRole.length) {
+        charIndex++;
+        setTimeout(typeRole, 100);
+      } else if (isDeleting && charIndex > 0) {
+        charIndex--;
+        setTimeout(typeRole, 50);
+      } else {
+        if (!isDeleting) {
+          isDeleting = true;
+          setTimeout(typeRole, 1500);
+        } else {
+          isDeleting = false;
+          roleIndex = (roleIndex + 1) % roles.length;
+          setTimeout(typeRole, 500);
+        }
+      }
+    }
+
+    window.onload = () => {
+      document.getElementById("introLine").classList.add("animate__fadeInDown");
+      roleLine.classList.add("animate__fadeInUp");
+      setTimeout(typeRole, 1000);
+    };
+  </script>
+
+  <!-- Contact Bot Icon & Modern Contact Popup -->
+  <style>
+    .contact-bot-button {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #7b1fa2, #512da8);
+      border-radius: 50%;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 999;
+    }
+
+    .contact-bot-button:hover {
+      box-shadow: 0 0 20px rgba(123, 31, 162, 0.8);
+    }
+
+    .contact-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      backdrop-filter: blur(6px);
+      background-color: rgba(0, 0, 0, 0.4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 998;
+    }
+
+    .contact-popup {
+      background: #1e1e2f;
+      border-radius: 12px;
+      padding: 25px 30px;
+      box-shadow: 0 4px 25px rgba(0,0,0,0.6);
+      color: white;
+      width: 280px;
+      z-index: 999;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .contact-popup a {
+      color: #b39ddb;
+      text-decoration: none;
+    }
+
+    .contact-popup a:hover {
+      text-decoration: underline;
+    }
+
+    @keyframes fadeIn {
+      from {
+        transform: scale(0.95);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  </style>
+
+  <div class="contact-bot-button" id="contactBotBtn" title="Contact Me">
+    🤖
+  </div>
+
+  <div class="contact-overlay" id="contactOverlay">
+    <div class="contact-popup">
+      <h5 class="mb-3">Let's Connect</h5>
+      <p class="mb-1"><strong>Email:</strong> <a href="mailto:arhps.1992@gmail.com">arhps.1992@gmail.com</a></p>
+      <p class="mb-3"><strong>Phone:</strong> <a href="tel:+918590731992">+91 8590731992</a></p>
+      <button class="btn btn-sm btn-outline-light w-100" onclick="toggleContact()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    function toggleContact() {
+      const overlay = document.getElementById("contactOverlay");
+      overlay.style.display = overlay.style.display === "flex" ? "none" : "flex";
+    }
+
+    document.getElementById("contactBotBtn").addEventListener("click", toggleContact);
+  </script>
+</body>
+</html>
